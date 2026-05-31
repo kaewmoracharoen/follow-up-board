@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QC Parawood — Secretary Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F3F4F6;--card:#fff;--bd:#E5E7EB;--blue:#1D4ED8;--green:#15803D;--purple:#7E22CE;--teal:#0F766E;--red:#991B1B;--t1:#111827;--t2:#6B7280;--t3:#9CA3AF}
+body{font-family:'Inter','Sarabun',sans-serif;font-size:14px;color:var(--t1);background:var(--bg);overflow:hidden}
+.app{display:flex;height:100vh;overflow:hidden;position:relative}
+.sidebar{width:200px;min-width:200px;background:#fff;border-right:1px solid var(--bd);display:flex;flex-direction:column}
+.sb-logo{padding:14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:9px}
+.logo-ic{width:30px;height:30px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+.logo-t{font-size:13px;font-weight:600;line-height:1.2}
+.logo-s{font-size:10px;color:var(--t3)}
+.sb-sec{padding:10px 12px 3px;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.nav{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;font-size:13px;color:var(--t2);position:relative;transition:background .1s;user-select:none}
+.nav:hover{background:#F9FAFB;color:var(--t1)}
+.nav.active{background:#EFF6FF;color:var(--blue);font-weight:500}
+.nav.active::before{content:'';position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--blue);border-radius:0 3px 3px 0}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.nav-cnt{margin-left:auto;font-size:10px;background:#F3F4F6;color:var(--t3);padding:1px 6px;border-radius:8px;font-weight:500}
+.nav.active .nav-cnt{background:#DBEAFE;color:#1E40AF}
+.sb-bot{margin-top:auto;padding:10px 12px;border-top:1px solid var(--bd)}
+.u-chip{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;flex-shrink:0}
+.u-name{font-size:12px;font-weight:500}
+.u-role{font-size:10px;color:var(--t3)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 16px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.tb-l{display:flex;align-items:center;gap:10px}
+.proj-name{font-size:15px;font-weight:600}
+.proj-badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.tb-r{display:flex;align-items:center;gap:6px}
+.btn{padding:6px 12px;border-radius:6px;border:1px solid var(--bd);background:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--t1);font-family:inherit;transition:background .1s}
+.btn:hover{background:#F9FAFB}
+.btn-p{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-p:hover{background:#1E40AF}
+.hint-bar{background:#EFF6FF;border-bottom:1px solid #BFDBFE;padding:5px 16px;font-size:11px;color:#1E40AF;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.board-area{flex:1;overflow:hidden;padding:12px 14px}
+.board{display:flex;gap:12px;overflow-x:auto;height:100%;padding-bottom:8px}
+.board::-webkit-scrollbar{height:5px}
+.board::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.col{background:#F9FAFB;border-radius:12px;width:210px;min-width:210px;border:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden;transition:border-color .15s,background .15s}
+.col-head{background:#fff;border-bottom:1px solid var(--bd);padding:9px 10px;border-radius:12px 12px 0 0;display:flex;flex-direction:column;gap:5px}
+.col-row1{display:flex;align-items:center;justify-content:space-between}
+.col-tl{display:flex;align-items:center;gap:5px}
+.col-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.col-title{font-size:12px;font-weight:600}
+.col-cnt{font-size:10px;background:#F3F4F6;color:var(--t3);padding:1px 6px;border-radius:8px;font-weight:500}
+.col-row2{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.owner-chip{display:flex;align-items:center;gap:4px;background:#F3F4F6;border:1px solid var(--bd);border-radius:20px;padding:2px 8px 2px 3px;font-size:11px;flex:1;min-width:0;cursor:pointer;transition:background .1s}
+.owner-chip:hover{background:#DBEAFE;border-color:#93C5FD}
+.owner-name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gchat-tog{display:flex;align-items:center;gap:3px;font-size:10px;padding:2px 6px;border-radius:6px;cursor:pointer;border:1px solid transparent;flex-shrink:0}
+.gchat-tog.on{background:#E8F5E9;color:#15803D;border-color:#BBF7D0}
+.gchat-tog.off{background:#FEF2F2;color:var(--red);border-color:#FECACA}
+.gdot{width:5px;height:5px;border-radius:50%}
+.gdot.on{background:#34A853;animation:pulse 2s infinite}
+.gdot.off{background:#EF4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.col-cards{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:0}
+.col-cards::-webkit-scrollbar{width:3px}
+.col-cards::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.card-wrap{position:relative;margin-bottom:6px}
+.card-wrap.dot::before{content:'';display:block;height:3px;background:var(--blue);border-radius:3px;margin-bottom:4px}
+.card-wrap.dob::after{content:'';display:block;height:3px;background:var(--blue);border-radius:3px;margin-top:4px}
+.card{background:#fff;border-radius:9px;border:1px solid var(--bd);padding:9px 10px;cursor:grab;transition:box-shadow .12s,transform .1s;position:relative;user-select:none}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.09);transform:translateY(-1px)}
+.card.dragging{opacity:.35;cursor:grabbing}
+.dh{position:absolute;left:5px;top:50%;transform:translateY(-50%);width:14px;display:flex;flex-direction:column;gap:2px;align-items:center;opacity:0;transition:opacity .15s;padding:4px 2px}
+.card:hover .dh{opacity:1}
+.dh span{display:block;width:10px;height:2px;background:var(--t3);border-radius:1px}
+.ctag{display:inline-flex;font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500;margin-bottom:5px}
+.tb{background:#DBEAFE;color:#1E40AF}.tg{background:#DCFCE7;color:#15803D}.tp{background:#F3E8FF;color:#7E22CE}.ta{background:#FEF3C7;color:#92400E}.tr{background:#FEE2E2;color:#991B1B}.tt{background:#CCFBF1;color:#0F766E}
+.c-title{font-size:12px;font-weight:500;line-height:1.4;margin-bottom:5px;padding-left:16px}
+.c-foot{display:flex;align-items:center;justify-content:space-between;padding-left:16px}
+.avs{display:flex}
+.avsm{width:18px;height:18px;border-radius:50%;font-size:7px;font-weight:600;color:#fff;display:flex;align-items:center;justify-content:center;border:1.5px solid #fff;margin-left:-5px}
+.avsm:first-child{margin-left:0}
+.cstats{display:flex;align-items:center;gap:6px;color:var(--t3);font-size:11px}
+.cstats span{display:flex;align-items:center;gap:2px}
+.dz{height:6px;border-radius:3px;transition:all .15s}
+.dz.active{height:42px;background:#EFF6FF;border:2px dashed #93C5FD;border-radius:8px;margin-bottom:4px}
+.add-btn{margin:0 8px 8px;padding:6px;border-radius:8px;border:1.5px dashed var(--bd);background:none;font-size:11px;color:var(--t3);cursor:pointer;width:calc(100% - 16px);text-align:center;font-family:inherit;transition:all .1s}
+.add-btn:hover{border-color:var(--blue);color:var(--blue);background:#EFF6FF}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding:20px;z-index:50;overflow-y:auto}
+.ov.show{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:520px;border:1px solid var(--bd);overflow:hidden;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.mhdr{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mclose{background:none;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:2px 6px;line-height:1}
+.mclose:hover{color:var(--t1)}
+.mbody{padding:14px 16px;display:flex;flex-direction:column;gap:12px;max-height:70vh;overflow-y:auto}
+.mbody::-webkit-scrollbar{width:4px}
+.mbody::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.mlabel{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.meta-r{display:flex;gap:12px;flex-wrap:wrap}
+.meta-i{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--t2)}
+.meta-i i{font-size:14px;color:var(--t3)}
+.desc-b{font-size:12px;line-height:1.6;background:#F9FAFB;padding:9px 11px;border-radius:8px;border:1px solid var(--bd)}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:5px;background:#F9FAFB;border:1px solid var(--bd);border-radius:20px;padding:3px 9px 3px 4px;font-size:11px}
+.files{display:flex;flex-direction:column;gap:5px}
+.fi{display:flex;align-items:center;gap:7px;padding:6px 9px;background:#F9FAFB;border-radius:7px;border:1px solid var(--bd);font-size:11px;cursor:pointer;transition:background .1s}
+.fi:hover{background:#DBEAFE}
+.fi i{font-size:15px;color:var(--blue)}
+.fi-name{flex:1;font-weight:500}
+.fi-sz{color:var(--t3)}
+.cmts{display:flex;flex-direction:column;gap:8px}
+.gn{background:#E8F5E9;border:1px solid #BBF7D0;border-radius:7px;padding:6px 9px;font-size:11px;color:#15803D;display:flex;align-items:center;gap:5px}
+.cmt{display:flex;gap:7px}
+.cmt-b{flex:1;background:#F9FAFB;border-radius:0 8px 8px 8px;padding:7px 9px;border:1px solid var(--bd)}
+.cmt-u{font-size:11px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:2px}
+.cmt-tm{font-size:10px;color:var(--t3);font-weight:400}
+.cmt-tx{font-size:12px;line-height:1.5}
+.cinp-r{display:flex;gap:7px;align-items:flex-end;margin-top:6px}
+.cinp{flex:1;border:1px solid var(--bd);border-radius:7px;padding:7px 9px;font-size:12px;font-family:inherit;resize:none;height:52px;outline:none}
+.cinp:focus{border-color:var(--blue);box-shadow:0 0 0 2px #DBEAFE}
+.mftr{padding:10px 16px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.mv-r{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t2);flex-wrap:wrap}
+.mvb{padding:3px 8px;border-radius:5px;border:1px solid var(--bd);background:#fff;font-size:11px;cursor:pointer;font-family:inherit}
+.mvb:hover{background:#DBEAFE;border-color:#93C5FD}
+.dov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding:20px;z-index:60;overflow-y:auto}
+.dov.show{display:flex}
+.dmodal{background:#fff;border-radius:14px;width:100%;max-width:420px;border:1px solid var(--bd);overflow:hidden;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.dhdr{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.dbody{padding:14px 16px;display:flex;flex-direction:column;gap:10px;max-height:75vh;overflow-y:auto}
+.sch-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F9FAFB;border-radius:8px;border:1px solid var(--bd)}
+.sch-badge{font-size:11px;background:#DBEAFE;color:#1E40AF;padding:2px 8px;border-radius:8px;font-weight:500}
+.sch-edit{font-size:11px;color:var(--blue);cursor:pointer;text-decoration:underline}
+.gcp{background:#F0FFF4;border:1px solid #86EFAC;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.gcp-h{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#15803D}
+.gcp-b{font-size:11px;color:#166534;line-height:1.7;font-family:monospace;white-space:pre-wrap}
+.gcp-f{font-size:11px;color:#4ADE80;display:flex;align-items:center;gap:5px}
+.dcr{display:flex;flex-direction:column;gap:4px;background:#F9FAFB;border:1px solid var(--bd);border-radius:8px;padding:8px 10px}
+.dcr-top{display:flex;align-items:center;justify-content:space-between}
+.dcr-ti{font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
+.dcr-li{font-size:11px;color:var(--t2);margin-top:2px}
+.dcr-it{padding:2px 0;display:flex;gap:5px}
+.dcr-n{color:var(--t3);min-width:14px;flex-shrink:0}
+.pk{position:fixed;background:#fff;border:1px solid var(--bd);border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.12);padding:6px;z-index:90;min-width:160px;display:none}
+.pk.show{display:block}
+.pk-it{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12px}
+.pk-it:hover{background:#F3F4F6}
+.toast{position:fixed;bottom:20px;right:20px;background:#111827;color:#fff;padding:8px 14px;border-radius:9px;font-size:12px;display:flex;align-items:center;gap:7px;z-index:200;opacity:0;transform:translateY(8px);transition:.22s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.tdot{width:7px;height:7px;border-radius:50%;background:#34A853;flex-shrink:0}
+@media(max-width:640px){.sidebar{width:160px;min-width:160px}.col{width:185px;min-width:185px}.hint-bar{display:none}}
+@media(max-width:480px){.sidebar{display:none}.col{width:220px;min-width:220px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="logo-ic">QC</div>
+    <div><div class="logo-t">WorkSpace</div><div class="logo-s">QC Parawood</div></div>
+  </div>
+  <div class="sb-sec">Projects</div>
+  <div class="nav active" onclick="switchProj(0,this)"><span class="nav-dot" style="background:#1D4ED8"></span>Costing<span class="nav-cnt">6</span></div>
+  <div class="nav" onclick="switchProj(1,this)"><span class="nav-dot" style="background:#7E22CE"></span>R&amp;D<span class="nav-cnt">4</span></div>
+  <div class="nav" onclick="switchProj(2,this)"><span class="nav-dot" style="background:#0F766E"></span>แผนงาน<span class="nav-cnt">5</span></div>
+  <div class="nav" onclick="switchProj(3,this)"><span class="nav-dot" style="background:#991B1B"></span>NCR<span class="nav-cnt">3</span></div>
+  <div class="nav" onclick="toast('+ New project')"><i class="ti ti-plus" style="font-size:13px;color:var(--t3)"></i><span style="color:var(--t3)">Add project</span></div>
+  <div class="sb-bot">
+    <div class="u-chip">
+      <div class="av" style="background:#1D4ED8">MK</div>
+      <div><div class="u-name">Mana K.</div><div class="u-role">Admin</div></div>
+    </div>
+  </div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l">
+      <span class="proj-name" id="pname">Costing</span>
+      <span class="proj-badge" id="pbadge" style="background:#DBEAFE;color:#1E40AF">OEM · Japan</span>
+    </div>
+    <div class="tb-r">
+      <button class="btn" onclick="openDigest()"><i class="ti ti-bell" style="font-size:13px"></i> Digest</button>
+      <button class="btn btn-p" onclick="toast('+ New task → Google Sheets')"><i class="ti ti-plus" style="font-size:13px"></i> Add task</button>
+    </div>
+  </div>
+  <div class="hint-bar"><i class="ti ti-arrows-up-down" style="font-size:13px"></i>ลาก card ขึ้น-ลง เพื่อเรียงลำดับ &nbsp;|&nbsp; ลากข้ามคอลัมน์ได้ &nbsp;|&nbsp; คลิก card เพื่อดูรายละเอียด</div>
+  <div class="board-area"><div class="board" id="board"></div></div>
+</div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhdr">
+      <div style="display:flex;align-items:center;gap:8px"><span class="ctag tb" id="m-tag"></span><span style="font-size:11px;color:var(--t3)" id="m-proj"></span></div>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <div style="font-size:15px;font-weight:600" id="m-title"></div>
+      <div class="meta-r">
+        <div class="meta-i"><i class="ti ti-calendar"></i><span id="m-due"></span></div>
+        <div class="meta-i"><i class="ti ti-flag"></i><span id="m-pri"></span></div>
+      </div>
+      <div><div class="mlabel">Assigned to</div><div class="chips" id="m-asgn"></div></div>
+      <div><div class="mlabel">Description</div><div class="desc-b" id="m-desc"></div></div>
+      <div>
+        <div class="mlabel">Files</div>
+        <div class="files">
+          <div class="fi" onclick="toast('Opening from Google Drive...')"><i class="ti ti-file-type-pdf"></i><span class="fi-name">Quotation-Rev2.pdf</span><span class="fi-sz">245 KB</span></div>
+          <div class="fi" onclick="toast('Opening spreadsheet...')"><i class="ti ti-file-spreadsheet" style="color:#15803D"></i><span class="fi-name">Project-data.xlsx</span><span class="fi-sz">88 KB</span></div>
+          <div class="fi" style="border-style:dashed;background:#fff;justify-content:center;color:var(--t3)" onclick="toast('Upload → Google Drive')"><i class="ti ti-upload"></i><span>Upload to Google Drive</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="mlabel">Comments</div>
+        <div class="cmts">
+          <div class="gn"><i class="ti ti-brand-google" style="font-size:13px"></i><span id="gnt">แจ้ง owner ทาง Google Chat</span></div>
+          <div class="cmt">
+            <div class="av" style="background:#1D4ED8;width:24px;height:24px;font-size:9px;flex-shrink:0">MK</div>
+            <div class="cmt-b"><div class="cmt-u">Mana K.<span class="cmt-tm">2 days ago</span></div><div class="cmt-tx">ส่ง Quotation Rev.2 ให้ลูกค้าแล้ว รอการยืนยัน</div></div>
+          </div>
+          <div id="xcmts"></div>
+        </div>
+        <div class="cinp-r">
+          <div class="av" style="background:#1D4ED8;width:24px;height:24px;font-size:9px;flex-shrink:0">MK</div>
+          <textarea class="cinp" id="cinp" placeholder="Add comment... → แจ้ง owner ทาง Google Chat ทันที"></textarea>
+          <button class="btn btn-p" onclick="addCmt()" style="height:34px;font-size:12px;flex-shrink:0;align-self:flex-end">Send</button>
+        </div>
+      </div>
+    </div>
+    <div class="mftr">
+      <div class="mv-r"><i class="ti ti-arrows-right-left" style="font-size:12px"></i>Move: <span id="mvbtns"></span></div>
+      <button class="btn" onclick="toast('Saved → Google Sheets')"><i class="ti ti-device-floppy" style="font-size:13px"></i> Save</button>
+    </div>
+  </div>
+</div>
+<div class="dov" id="dov" onclick="if(event.target===this)closeDigest()">
+  <div class="dmodal">
+    <div class="dhdr"><span style="font-size:14px;font-weight:600">Hourly Digest — Preview</span><button class="mclose" onclick="closeDigest()">✕</button></div>
+    <div class="dbody">
+      <div class="sch-row"><i class="ti ti-clock" style="font-size:16px;color:var(--blue)"></i><span style="font-size:12px;flex:1">ส่งสรุปงานค้างทุก</span><span class="sch-badge" id="dfreq">1 ชั่วโมง</span><span class="sch-edit" onclick="changeFreq()">เปลี่ยน</span></div>
+      <div class="gcp" id="gcp"></div>
+      <div id="dcols"></div>
+      <button class="btn btn-p" style="justify-content:center" onclick="sendDigest()"><i class="ti ti-send" style="font-size:13px"></i> ส่ง Digest ทดสอบ</button>
+    </div>
+  </div>
+</div>
+<div class="pk" id="pk"></div>
+<div class="toast" id="tst"><div class="tdot"></div><span id="tmsg"></span></div>
+</div>
+<script>
+const AVC={MK:'#1D4ED8',NK:'#15803D',RU:'#0F766E',TN:'#7E22CE'};
+const MBR=[{init:'MK',name:'Mana K.',color:'#1D4ED8'},{init:'NK',name:'Nattakorn',color:'#15803D'},{init:'RU',name:'Rutchaneekorn',color:'#0F766E'},{init:'TN',name:'Thanakrit',color:'#7E22CE'}];
+const FREQS=['30 นาที','1 ชั่วโมง','2 ชั่วโมง','4 ชั่วโมง','8 ชั่วโมง'];
+let freqIdx=1;
+const P=[
+  {name:'Costing',badge:'OEM · Japan',bbg:'#DBEAFE',bc:'#1E40AF',cols:[
+    {id:'c0',title:'รอดำเนินการ',dot:'#6B7280',gc:true,ow:'NK',cards:[{id:'k1',t:'Office Table – Watanabe san',tag:'Pending',tc:'ta',due:'15 Jun',pri:'Medium',asgn:['MK'],desc:'รอส่งใบเสนอราคา',cm:3,fi:2}]},
+    {id:'c1',title:'กำลังดำเนินการ',dot:'#1D4ED8',gc:true,ow:'MK',cards:[
+      {id:'k2',t:'IYOBE C2603CH – Stacking Bumper',tag:'In Progress',tc:'tb',due:'10 Jun',pri:'High',asgn:['MK','NK','RU'],desc:'ส่งตัวอย่าง Stacking Bumper ให้ลูกค้า Okazaki san ตรวจสอบ',cm:15,fi:8},
+      {id:'k3',t:'NEW COLOR – Veneer sample',tag:'Design',tc:'tp',due:'20 Jun',pri:'Medium',asgn:['TN','MK'],desc:'อนุมัติ veneer sample สีใหม่',cm:5,fi:3}]},
+    {id:'c2',title:'รอตรวจสอบ',dot:'#D97706',gc:true,ow:'RU',cards:[
+      {id:'k4',t:'Dining Chair 2026-04 Quotation',tag:'Review',tc:'ta',due:'12 Jun',pri:'High',asgn:['NK'],desc:'รอลูกค้ายืนยันราคา Rev.1',cm:7,fi:4},
+      {id:'k5',t:'NCR Bent wood defect',tag:'NCR',tc:'tr',due:'8 Jun',pri:'High',asgn:['RU','MK'],desc:'แก้ไข defect batch',cm:9,fi:6}]},
+    {id:'c3',title:'รอส่งลูกค้า',dot:'#0F766E',gc:true,ow:'NK',cards:[]},
+    {id:'c4',title:'เสร็จสิ้น',dot:'#15803D',gc:false,ow:null,cards:[{id:'k6',t:'C2603CH – Project kickoff',tag:'Done',tc:'tg',due:'—',pri:'—',asgn:['MK','NK'],desc:'เริ่มต้นโปรเจ็คเรียบร้อย',cm:12,fi:5}]}
+  ]},
+  {name:'R&D',badge:'Internal',bbg:'#F3E8FF',bc:'#7E22CE',cols:[
+    {id:'r0',title:'Concept',dot:'#6B7280',gc:false,ow:'TN',cards:[{id:'r1',t:'Bent wood curve study',tag:'Research',tc:'tp',due:'30 Jun',pri:'Medium',asgn:['TN'],desc:'ศึกษา radius',cm:2,fi:1}]},
+    {id:'r1',title:'Prototype',dot:'#7E22CE',gc:true,ow:'TN',cards:[{id:'r2',t:'New joint system',tag:'Proto',tc:'tp',due:'25 Jun',pri:'High',asgn:['TN','MK'],desc:'พัฒนา joint ใหม่',cm:6,fi:4}]},
+    {id:'r2',title:'Testing',dot:'#D97706',gc:true,ow:'NK',cards:[{id:'r3',t:'Veneer strength test',tag:'Test',tc:'ta',due:'18 Jun',pri:'High',asgn:['NK','RU'],desc:'ทดสอบความแข็งแรง',cm:4,fi:3}]},
+    {id:'r3',title:'Approved',dot:'#15803D',gc:false,ow:null,cards:[{id:'r4',t:'Ergonomic seat standard',tag:'Done',tc:'tg',due:'—',pri:'—',asgn:['TN'],desc:'กำหนดมาตรฐาน',cm:8,fi:6}]}
+  ]},
+  {name:'แผนงาน',badge:'Q3 2026',bbg:'#CCFBF1',bc:'#0F766E',cols:[
+    {id:'p0',title:'Backlog',dot:'#6B7280',gc:false,ow:'MK',cards:[{id:'p1',t:'EU market study',tag:'Plan',tc:'tt',due:'Jul',pri:'Low',asgn:['MK'],desc:'ศึกษาตลาดยุโรป',cm:1,fi:0},{id:'p2',t:'Q4 capacity plan',tag:'Plan',tc:'tt',due:'Aug',pri:'Medium',asgn:['MK','NK'],desc:'วางแผนกำลังผลิต',cm:3,fi:2}]},
+    {id:'p1',title:'กำลังดำเนินการ',dot:'#0F766E',gc:true,ow:'MK',cards:[{id:'p3',t:'OBM brand identity',tag:'Active',tc:'tt',due:'30 Jun',pri:'High',asgn:['TN','MK'],desc:'พัฒนา brand identity',cm:9,fi:5},{id:'p4',t:'Supply chain audit',tag:'Active',tc:'tt',due:'15 Jun',pri:'High',asgn:['NK'],desc:'ตรวจสอบ supplier',cm:4,fi:3}]},
+    {id:'p2',title:'รอ Approve',dot:'#D97706',gc:true,ow:'MK',cards:[{id:'p5',t:'Machinery investment',tag:'Review',tc:'ta',due:'10 Jun',pri:'High',asgn:['MK'],desc:'เสนอซื้อเครื่องจักร',cm:6,fi:4}]},
+    {id:'p3',title:'เสร็จสิ้น',dot:'#15803D',gc:false,ow:null,cards:[]}
+  ]},
+  {name:'NCR',badge:'Quality',bbg:'#FEE2E2',bc:'#991B1B',cols:[
+    {id:'n0',title:'พบปัญหา',dot:'#EF4444',gc:true,ow:'RU',cards:[{id:'n1',t:'Surface defect – 0524',tag:'NCR',tc:'tr',due:'ASAP',pri:'High',asgn:['RU','MK'],desc:'พบรอยขีดข่วน veneer',cm:5,fi:4}]},
+    {id:'n1',title:'กำลังแก้ไข',dot:'#D97706',gc:true,ow:'NK',cards:[{id:'n2',t:'Joint gap > 0.5mm',tag:'Fix',tc:'ta',due:'12 Jun',pri:'High',asgn:['NK','RU'],desc:'แก้ไข joint gap',cm:8,fi:6},{id:'n3',t:'Stain color mismatch',tag:'Fix',tc:'ta',due:'14 Jun',pri:'Medium',asgn:['TN'],desc:'แก้ไขสีไม่ตรง',cm:3,fi:2}]},
+    {id:'n2',title:'ตรวจสอบซ้ำ',dot:'#1D4ED8',gc:true,ow:'MK',cards:[]},
+    {id:'n3',title:'ปิด NCR',dot:'#15803D',gc:false,ow:null,cards:[]}
+  ]}
+];
+let cp=0,dr=null,pPi=null,pCi=null;
+function ah(i,c,s=22){return `<div class="av" style="background:${c||AVC[i]||'#6B7280'};width:${s}px;height:${s}px;font-size:${Math.floor(s*.38)}px">${i}</div>`}
+function renderBoard(pi){
+  const p=P[pi];const b=document.getElementById('board');b.innerHTML='';
+  p.cols.forEach((col,ci)=>{
+    const ce=document.createElement('div');ce.className='col';
+    const om=col.ow?MBR.find(m=>m.init===col.ow):null;
+    const oh=om?`${ah(om.init,om.color,16)}<span class="owner-name">${om.name}</span>`:`<span class="owner-name" style="color:var(--t3);font-style:italic">Set owner</span>`;
+    ce.innerHTML=`<div class="col-head"><div class="col-row1"><div class="col-tl"><span class="col-dot" style="background:${col.dot}"></span><span class="col-title">${col.title}</span><span class="col-cnt">${col.cards.length}</span></div></div><div class="col-row2"><div class="owner-chip" onclick="openPk(event,${pi},${ci})">${oh}</div><div class="gchat-tog ${col.gc?'on':'off'}" onclick="togGC(${pi},${ci})"><div class="gdot ${col.gc?'on':'off'}"></div>Chat</div></div></div><div class="col-cards" id="cc-${col.id}"></div><button class="add-btn" onclick="toast('+ Task → Google Sheets')">+ Add task</button>`;
+    b.appendChild(ce);
+    const cc=document.getElementById('cc-'+col.id);
+    col.cards.forEach((card,ki)=>cc.appendChild(mkW(card,pi,ci,ki)));
+    cc.appendChild(mkDZ(pi,ci));
+  });
+}
+function mkW(card,pi,ci,ki){
+  const w=document.createElement('div');w.className='card-wrap';
+  const c=document.createElement('div');c.className='card';c.draggable=true;
+  c.innerHTML=`<div class="dh"><span></span><span></span><span></span></div><span class="ctag ${card.tc}">${card.tag}</span><div class="c-title">${card.t}</div><div class="c-foot"><div class="avs">${card.asgn.map(a=>`<div class="avsm" style="background:${AVC[a]||'#6B7280'}">${a}</div>`).join('')}</div><div class="cstats"><span><i class="ti ti-paperclip" style="font-size:10px"></i>${card.fi}</span><span><i class="ti ti-message" style="font-size:10px"></i>${card.cm}</span></div></div>`;
+  c.addEventListener('dragstart',e=>{dr={pi,ci,ki,id:card.id};setTimeout(()=>c.classList.add('dragging'),0);e.dataTransfer.effectAllowed='move'});
+  c.addEventListener('dragend',()=>{c.classList.remove('dragging');clrI();dr=null});
+  c.addEventListener('click',()=>openCard(pi,ci,ki));
+  w.addEventListener('dragover',e=>{e.preventDefault();if(!dr)return;clrI();const mid=w.getBoundingClientRect().top+w.getBoundingClientRect().height/2;w.classList.add(e.clientY<mid?'dot':'dob')});
+  w.addEventListener('dragleave',()=>w.classList.remove('dot','dob'));
+  w.addEventListener('drop',e=>{e.preventDefault();if(!dr||dr.id===card.id)return;const mid=w.getBoundingClientRect().top+w.getBoundingClientRect().height/2;doMv(pi,ci,ki,e.clientY<mid);clrI()});
+  w.appendChild(c);return w;
+}
+function mkDZ(pi,ci){
+  const d=document.createElement('div');d.className='dz';
+  d.addEventListener('dragover',e=>{e.preventDefault();clrI();d.classList.add('active')});
+  d.addEventListener('dragleave',()=>d.classList.remove('active'));
+  d.addEventListener('drop',e=>{e.preventDefault();if(!dr)return;doMv(pi,ci,P[pi].cols[ci].cards.length,true);clrI()});
+  return d;
+}
+function doMv(tPi,tCi,tKi,bef){
+  if(!dr)return;
+  const{pi:fPi,ci:fCi,ki:fKi}=dr;
+  const fc=P[fPi].cols[fCi].cards,tc=P[tPi].cols[tCi].cards;
+  const[mv]=fc.splice(fKi,1);
+  let idx=bef?tKi:tKi;
+  if(fPi===tPi&&fCi===tCi&&!bef&&tKi>=fKi)idx=tKi;
+  idx=Math.max(0,Math.min(idx,tc.length));
+  tc.splice(idx,0,mv);
+  renderBoard(cp);
+  const col=P[tPi].cols[tCi],om=col.ow?MBR.find(m=>m.init===col.ow):null;
+  if(fPi===tPi&&fCi===tCi)toast(`↕ เรียงลำดับใหม่ใน "${col.title}"`);
+  else if(col.gc&&om)toast(`🔔 Moved → "${col.title}" | แจ้ง ${om.name} ทาง Chat`);
+  else toast(`Moved to "${col.title}"`);
+}
+function clrI(){document.querySelectorAll('.dot,.dob').forEach(e=>e.classList.remove('dot','dob'));document.querySelectorAll('.dz.active').forEach(e=>e.classList.remove('active'))}
+function togGC(pi,ci){P[pi].cols[ci].gc=!P[pi].cols[ci].gc;renderBoard(pi);toast(P[pi].cols[ci].gc?'🔔 Chat ON':'Chat OFF')}
+function openPk(e,pi,ci){
+  e.stopPropagation();pPi=pi;pCi=ci;
+  const pk=document.getElementById('pk');
+  pk.innerHTML=`<div class="pk-it" onclick="setOw(null)"><i class="ti ti-user-off" style="font-size:13px;color:var(--t3)"></i> No owner</div>`;
+  MBR.forEach(m=>{const d=document.createElement('div');d.className='pk-it';d.innerHTML=`${ah(m.init,m.color,20)}<span>${m.name}</span>`;d.onclick=()=>setOw(m.init);pk.appendChild(d)});
+  const r=e.currentTarget.getBoundingClientRect();pk.style.left=r.left+'px';pk.style.top=(r.bottom+4)+'px';pk.classList.add('show');
+}
+function setOw(init){if(pPi===null)return;P[pPi].cols[pCi].ow=init;document.getElementById('pk').classList.remove('show');renderBoard(pPi);const m=init?MBR.find(x=>x.init===init):null;toast(m?`Owner: ${m.name}`:'Owner removed');pPi=null;pCi=null}
+document.addEventListener('click',e=>{if(!document.getElementById('pk').contains(e.target))document.getElementById('pk').classList.remove('show')});
+function openCard(pi,ci,ki){
+  const card=P[pi].cols[ci].cards[ki],col=P[pi].cols[ci],om=col.ow?MBR.find(m=>m.init===col.ow):null;
+  document.getElementById('m-tag').textContent=card.tag;document.getElementById('m-tag').className='ctag '+card.tc;
+  document.getElementById('m-proj').textContent=P[pi].name+' · '+col.title+(om?' · '+om.name:'');
+  document.getElementById('m-title').textContent=card.t;
+  document.getElementById('m-due').textContent='Due: '+card.due;
+  document.getElementById('m-pri').textContent='Priority: '+card.pri;
+  document.getElementById('m-desc').textContent=card.desc;
+  document.getElementById('m-asgn').innerHTML=card.asgn.map(a=>`<div class="chip">${ah(a,AVC[a],16)}<span>${a}</span></div>`).join('');
+  document.getElementById('gnt').textContent=col.gc&&om?`Comment จะแจ้ง ${om.name} ทาง Google Chat ทันที`:'Column นี้ปิด Chat notification';
+  document.getElementById('xcmts').innerHTML='';
+  const mv=document.getElementById('mvbtns');mv.innerHTML='';
+  P[pi].cols.forEach((c,i)=>{if(i===ci)return;const b=document.createElement('button');b.className='mvb';b.textContent=c.title;b.onclick=()=>{const c2=P[pi].cols[ci].cards.splice(ki,1)[0];P[pi].cols[i].cards.push(c2);renderBoard(pi);closeModal();const o2=c.ow?MBR.find(m=>m.init===c.ow):null;toast(c.gc&&o2?`🔔 → "${c.title}" | แจ้ง ${o2.name}`:`Moved to "${c.title}"`)};mv.appendChild(b)});
+  document.getElementById('ov').classList.add('show');
+}
+function closeModal(){document.getElementById('ov').classList.remove('show')}
+function addCmt(){const inp=document.getElementById('cinp');if(!inp.value.trim())return;const d=document.createElement('div');d.className='cmt';d.innerHTML=`${ah('MK','#1D4ED8',24)}<div class="cmt-b"><div class="cmt-u">You<span class="cmt-tm">Just now</span></div><div class="cmt-tx">${inp.value.trim()}</div></div>`;document.getElementById('xcmts').appendChild(d);inp.value='';toast('💬 Comment → แจ้ง owner ทาง Google Chat')}
+function switchProj(idx,el){cp=idx;document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active'));el.classList.add('active');const p=P[idx];document.getElementById('pname').textContent=p.name;document.getElementById('pbadge').textContent=p.badge;document.getElementById('pbadge').style.background=p.bbg;document.getElementById('pbadge').style.color=p.bc;renderBoard(idx)}
+function openDigest(){
+  const p=P[cp];document.getElementById('dfreq').textContent=FREQS[freqIdx];
+  const now=new Date(),t=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  let lines=[`📋 *${p.name} — Digest รายงานงานค้าง*`,`🕐 ${t} น. | ส่งทุก ${FREQS[freqIdx]}`,`${'─'.repeat(26)}`];
+  let total=0;
+  p.cols.forEach(col=>{if(!col.gc||col.cards.length===0)return;total+=col.cards.length;const om=col.ow?MBR.find(m=>m.init===col.ow):null;lines.push(`\n📌 *${col.title}* (${col.cards.length})${om?' — 👤 '+om.name:''}`);col.cards.forEach((c,i)=>lines.push(`  ${i+1}. ${c.t}`))});
+  if(total===0)lines.push('\n✅ ไม่มีงานค้าง');else lines.splice(3,0,`⚠️ งานค้าง: *${total} งาน*`);
+  document.getElementById('gcp').innerHTML=`<div class="gcp-h"><i class="ti ti-brand-google" style="font-size:16px"></i>Google Chat Preview</div><div class="gcp-b">${lines.join('\n')}</div><div class="gcp-f"><div class="gdot on"></div>ส่งเข้า Space อัตโนมัติ</div>`;
+  const dc=document.getElementById('dcols');dc.innerHTML='<div class="mlabel" style="margin-bottom:4px">Columns ใน Digest</div>';
+  p.cols.forEach((col,ci)=>{const om=col.ow?MBR.find(m=>m.init===col.ow):null;const row=document.createElement('div');row.className='dcr';row.innerHTML=`<div class="dcr-top"><div class="dcr-ti"><span style="width:7px;height:7px;border-radius:50%;background:${col.dot};display:inline-block"></span>${col.title}<span class="col-cnt">${col.cards.length}</span></div><div style="display:flex;align-items:center;gap:6px">${om?`<span style="font-size:11px;color:var(--t2);display:flex;align-items:center;gap:3px">${ah(om.init,om.color,16)}<span>${om.name}</span></span>`:'<span style="font-size:10px;color:var(--t3)">No owner</span>'}<div class="gchat-tog ${col.gc?'on':'off'}" onclick="togGC(${cp},${ci});openDigest()"><div class="gdot ${col.gc?'on':'off'}"></div>${col.gc?'ON':'OFF'}</div></div></div>${col.cards.length?`<div class="dcr-li">${col.cards.map((c,i)=>`<div class="dcr-it"><span class="dcr-n">${i+1}.</span><span>${c.t}</span></div>`).join('')}</div>`:''}`;dc.appendChild(row)});
+  document.getElementById('dov').classList.add('show');
+}
+function closeDigest(){document.getElementById('dov').classList.remove('show')}
+function changeFreq(){freqIdx=(freqIdx+1)%FREQS.length;openDigest();toast('Schedule: '+FREQS[freqIdx])}
+function sendDigest(){toast('📤 Digest ส่ง Google Chat แล้ว ✓');closeDigest()}
+let tt;
+function toast(msg){clearTimeout(tt);const t=document.getElementById('tst');document.getElementById('tmsg').textContent=msg;t.classList.add('show');tt=setTimeout(()=>t.classList.remove('show'),2800)}
+renderBoard(0);
+</script>
+</body>
+</html>
